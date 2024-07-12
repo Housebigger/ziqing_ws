@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bigma7ax0514">
+    <!-- Import bigma7ax0514 urdf file -->
+    <xacro:include filename="$(find bigma7ax0514_description)/urdf/bigma7ax0514_gazebo.urdf" />
+
+    <link name="dummy"/>
+    <joint name="Joint_dummy" type="fixed">
+        <parent link="dummy"/>
+        <child link="Link_0"/> 
+    </joint>
+<!-- <link name="world"/>
+    <joint name="Joint_world" type="fixed">
+        <parent link="world"/>
+        <child link="dummy"/>
+    </joint>-->
+    
+    <!-- SMALL CUBE FOR ROS2_GRASPING PLUGIN -->
+<!--<link name="EE_egp64">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.00001" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+    </inertial>
+    <visual>
+        <geometry>
+        <box size= "0.001 0.001 0.001" />
+        </geometry>
+    </visual>
+   </link> -->
+
+<!--<joint name="EE_egp64_joint" type="prismatic" >
+    <parent link="Link_14" />
+    <child link="EE_egp64" />
+    <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
+    <axis xyz="1 0 0" />
+    <origin xyz="0.0 0.0 1.088" rpy="0 0 0"/> --><!-- This point is the centre below Link_0. -->
+<!--</joint>-->   
+    <gazebo reference="Link_14">
+        <material>Gazebo/Blue</material>
+        <gravity>true</gravity>
+        <soft_cfm>0.5</soft_cfm>
+        <soft_erp>0.5</soft_erp>
+        <kp>500000</kp>
+        <kd>500</kd>
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+        <max_vel>0.0</max_vel>
+        <min_depth>0.00</min_depth>
+    </gazebo>
+    <gazebo reference="Link_12">
+        <material>Gazebo/Green</material>
+        <gravity>true</gravity>      
+    </gazebo>
+    <gazebo reference="Link_21">
+        <material>Gazebo/Yellow</material>
+        <gravity>true</gravity>       
+    </gazebo>
+    <gazebo reference="Link_23">
+        <material>Gazebo/Orange</material>
+        <gravity>true</gravity>
+        <soft_cfm>0.5</soft_cfm>
+        <soft_erp>0.5</soft_erp>
+        <kp>500000</kp>
+        <kd>500</kd>
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2> 
+        <max_vel>0.0</max_vel>
+        <min_depth>0.00</min_depth>       
+    </gazebo>
+    <gazebo reference="Link_0">
+        <material>Gazebo/Red</material> 
+        <gravity>true</gravity>
+    </gazebo>
+
+    <!-- 声明马达,好像没什么卵用 -->
+    <xacro:macro name="joint_transmission" params="joint_name">
+        <transmission name="${joint_name}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+            <joint name="${joint_name}">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+            <actuator name="${joint_name}_motor">
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+    <xacro:joint_transmission joint_name="Joint_11"/>
+    <xacro:joint_transmission joint_name="Joint_12"/>
+    <xacro:joint_transmission joint_name="Joint_13"/>
+    <xacro:joint_transmission joint_name="Joint_14"/>
+    <xacro:joint_transmission joint_name="Joint_21"/> 
+    <xacro:joint_transmission joint_name="Joint_22"/>
+    <xacro:joint_transmission joint_name="Joint_23"/>
+
+    <!-- 声明ros2_control & initial_positions -->    
+    <ros2_control name="GazeboSystem" type="system">
+            <hardware>
+                <!-- By default, set up controllers for simulation. This won't work on real hardware -->
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+            </hardware>
+            <joint name="Joint_11">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">0</param>
+                </state_interface>
+                <state_interface name="velocity"/>
+            </joint>
+            <joint name="Joint_12">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">0</param>
+                </state_interface>
+                <state_interface name="velocity"/>
+            </joint>
+            <joint name="Joint_13">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">0</param>
+                </state_interface>
+                <state_interface name="velocity"/>
+            </joint>
+            <joint name="Joint_14">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">0</param>
+                </state_interface>
+                <state_interface name="velocity"/>
+            </joint>
+            <joint name="Joint_21">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">0</param>
+                </state_interface>
+                <state_interface name="velocity"/>
+            </joint>
+            <joint name="Joint_22">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">0</param>
+                </state_interface>
+                <state_interface name="velocity"/>
+            </joint>
+            <joint name="Joint_23">
+                <command_interface name="position"/>
+                <state_interface name="position">
+                  <param name="initial_value">0</param>
+                </state_interface>
+                <state_interface name="velocity"/>
+            </joint>
+    </ros2_control>  
+    
+    <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <parameters>$(find bigma7ax0514_moveit_config0515)/config/ros2_controllers.yaml</parameters>
+            <robot_param>robot_description</robot_param>
+            <robot_param_node>robot_state_publisher</robot_param_node>
+        </plugin>
+    </gazebo>
+
+</robot>

@@ -1,0 +1,10 @@
+# Default initial positions for bigma7ax0514's ros2_control fake system
+
+initial_positions:
+  Joint_11: 0
+  Joint_12: 0
+  Joint_13: 0
+  Joint_14: 0
+  Joint_21: 0
+  Joint_22: 0
+  Joint_23: 0

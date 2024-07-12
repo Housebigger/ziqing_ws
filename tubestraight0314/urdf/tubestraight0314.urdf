@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="tubestraight0314">
+  <link name="world"/>
+  <joint name="fixed" type="fixed">
+      <parent link="world"/>
+      <child link="base_link"/>
+  </joint>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="1.25 -0.00098688 0.62711"
+        rpy="0 0 0" />
+      <mass
+        value="106.93" />
+      <inertia
+        ixx="78.399"
+        ixy="3.0113E-13"
+        ixz="-7.3168E-14"
+        iyy="69.372"
+        iyz="-0.066809"
+        izz="120.41" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find tubestraight0314)/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 0.75294 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find tubestraight0314)/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="Link_wing">
+    <inertial>
+      <origin
+        xyz="0.070407 1.7764E-15 -1.25"
+        rpy="0 0 0" />
+      <mass
+        value="14174" />
+      <inertia
+        ixx="12598"
+        ixy="-4.5475E-13"
+        ixz="3.8831E-12"
+        iyy="13416"
+        iyz="-1062.1"
+        izz="9617.8" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find tubestraight0314)/meshes/Link_wing.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="file://$(find tubestraight0314)/meshes/Link_wing.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="Joint_wing"
+    type="revolute">
+    <origin
+      xyz="0 0 1.0635"
+      rpy="3.1416 -1.5708 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="Link_wing" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  
+  <gazebo reference="base_link">
+    <mu1 value="100.0"/>
+    <mu2 value="100.0"/>
+    <kp value="1000000.0" />
+    <kd value="10.0" />
+  </gazebo>
+  <gazebo reference="Link_wing">
+    <mu1 value="100.0"/>
+    <mu2 value="100.0"/>
+    <kp value="1000000.0" />
+    <kd value="10.0" />
+  </gazebo>
+
+  <ros2_control name="GazeboSystem" type="system">
+        <hardware>
+            <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+        </hardware>
+        <joint name="Joint_wing">
+            <command_interface name="position">
+                <param name="min">0</param>
+                <param name="max">0</param>
+            </command_interface>
+            <state_interface name="position">
+                <param name="initial_value">0.0</param>
+            </state_interface>
+            <state_interface name="velocity"/>
+        </joint>
+   </ros2_control>
+
+   <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <parameters>$(find tubestraight0314)/config/ros2_controllers.yaml</parameters>
+            <robot_param_node>robot_state_publisher</robot_param_node>
+        </plugin>
+   </gazebo>
+
+</robot>

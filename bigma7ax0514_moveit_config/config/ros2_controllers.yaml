@@ -1,0 +1,39 @@
+# This config file is used by ros2_control
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    arm1_bigmama_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    arm2_bigmama_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+arm1_bigmama_controller:
+  ros__parameters:
+    joints:
+      - Joint_11
+      - Joint_12
+      - Joint_13
+      - Joint_14
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+arm2_bigmama_controller:
+  ros__parameters:
+    joints:
+      - Joint_21
+      - Joint_22
+      - Joint_23
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity

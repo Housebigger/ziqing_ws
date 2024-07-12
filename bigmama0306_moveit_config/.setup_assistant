@@ -1,0 +1,25 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: bigmama0306_description
+    relative_path: urdf/bigmama0306.urdf
+  srdf:
+    relative_path: config/bigmama0306.srdf
+  package_settings:
+    author_name: hyh
+    author_email: mc25038@umac.mo
+    generated_timestamp: 1714126378
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+      - velocity
